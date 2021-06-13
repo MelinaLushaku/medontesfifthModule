@@ -14,9 +14,45 @@ public class Appointment {
     @Column
     private Date dateAndTime;
 
+    @Column
+    private boolean freeAppoint;
+
+    @Embedded
+    private PatientEntity patientEntity;
+
+    @Embedded
+    private DoctorEntity doctorEntity;
+
    public  Appointment(){}
-    public Appointment(Date dateAndTime) {
-        this.dateAndTime = dateAndTime;
+    public Appointment(AppointmentBuilder appointmentBuilder) {
+        this.dateAndTime = appointmentBuilder.dateAndTime;
+        this.freeAppoint = appointmentBuilder.freeAppoint;
+        this.doctorEntity = appointmentBuilder.doctorEntity;
+        this.patientEntity = appointmentBuilder.patientEntity;
+    }
+
+    public DoctorEntity getDoctorEntity() {
+        return doctorEntity;
+    }
+
+    public void setDoctorEntity(DoctorEntity doctorEntity) {
+        this.doctorEntity = doctorEntity;
+    }
+
+    public PatientEntity getPatientEntity() {
+        return patientEntity;
+    }
+
+    public void setPatientEntity(PatientEntity patientEntity) {
+        this.patientEntity = patientEntity;
+    }
+
+    public boolean isFreeAppoint() {
+        return freeAppoint;
+    }
+
+    public void setFreeAppoint(boolean freeAppoint) {
+        this.freeAppoint = freeAppoint;
     }
 
     public int getAppointmentId() {
@@ -34,4 +70,44 @@ public class Appointment {
     public void setDateAndTime(Date dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
+
+
+      public  static  class  AppointmentBuilder{
+          private Date dateAndTime;
+          private boolean freeAppoint;
+          private PatientEntity patientEntity;
+          private DoctorEntity doctorEntity;
+
+
+          public AppointmentBuilder(Date dateAndTime , boolean freeAppoint , DoctorEntity doctorEntity){
+              this.dateAndTime = dateAndTime;
+              this.freeAppoint = freeAppoint;
+              this.doctorEntity = doctorEntity;
+          }
+
+         public AppointmentBuilder setDateAndTime(Date dateAndTime){
+              this.dateAndTime = dateAndTime;
+              return this;
+         }
+          public AppointmentBuilder setFreeAppoint(Date dateAndTime){
+              this.freeAppoint = freeAppoint;
+              return this;
+          }
+          public AppointmentBuilder setDoctorEntity(Date dateAndTime){
+              this.doctorEntity = doctorEntity;
+              return this;
+          }
+          public AppointmentBuilder setPatientEntity(Date dateAndTime){
+              this.patientEntity = patientEntity;
+              return this;
+          }
+          public Appointment build(){
+              return new Appointment(this);
+          }
+
+      }
+
+
+
+
 }
