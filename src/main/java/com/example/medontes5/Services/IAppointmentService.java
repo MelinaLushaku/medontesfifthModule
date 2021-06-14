@@ -5,6 +5,7 @@ import com.example.medontes5.Model.DoctorEntity;
 import com.example.medontes5.Model.PatientEntity;
 
 import java.util.Date;
+import java.util.List;
 
 public interface IAppointmentService {
 
@@ -12,5 +13,7 @@ public interface IAppointmentService {
     DoctorEntity getDoctorByPrNumber(int nrPersonal);
     PatientEntity getPatientByPrNumber(int nrPersonal);
     void editAppointment(int doc , Date data , PatientEntity p);
+    List<Appointment> getAppByDoc(int doc);
+    List<Appointment> getAppByPat(int pat);
 
 }
