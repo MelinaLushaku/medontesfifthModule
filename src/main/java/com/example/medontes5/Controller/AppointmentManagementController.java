@@ -2,6 +2,7 @@ package com.example.medontes5.Controller;
 
 import com.example.medontes5.Helper.AppointmentHelper;
 import com.example.medontes5.Helper.AppointmentResponse;
+import com.example.medontes5.Helper.CancelAppointment;
 import com.example.medontes5.Model.Appointment;
 import com.example.medontes5.Model.DoctorEntity;
 import com.example.medontes5.Model.PatientEntity;
@@ -11,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.Doc;
 import java.util.Date;
 import java.util.List;
 
@@ -61,4 +63,35 @@ public class AppointmentManagementController {
         }
     }
 
+    @PostMapping("/cancelAppointment")
+    public AppointmentResponse cancelAppointment(@RequestBody CancelAppointment cancelAppointment){
+        this.iAppointmentService.cancelAppointment(cancelAppointment.getDocId(), cancelAppointment.getData() , cancelAppointment.getPatId());
+        return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("AppointmentCanceled!").setData("Appointment at "+cancelAppointment.getData()+" was canceled!").build();
+    }
+
+    @PostMapping("/deleteAppointment/{docId}/{date}")
+    public AppointmentResponse deleteAppointment(@PathVariable int docId , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date){
+       this.iAppointmentService.deleteAppointment(docId , date);
+        DoctorEntity de = this.iAppointmentService.getDoctorByPrNumber(docId);
+       return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("Appointment Canceled!").setData("Appointment by:"+de.getDoctorName()+""+de.getDoctorSurname()+" at "+date+ "was canceled!").build();
+    }
+
+    @GetMapping("/getTodaysAppDoc/{docId}")
+    public AppointmentResponse getTodaysAppDoc(@PathVariable int docId){
+        List<Appointment> lista = this.iAppointmentService.todayAppDoc(docId);
+        if(lista.size() != 0){
+            return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("List e Sukseshshme!").setData(lista).build();
+        }
+        return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("There are no appointments today!").build();
+
+    }
+
+    @GetMapping("/getTodaysAppPat/{patId}")
+    public AppointmentResponse getTodaysAppPat(@PathVariable int patId){
+        List<Appointment> lista = this.iAppointmentService.todayAppPat(patId);
+        if(lista.size() != 0){
+            return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("List e Sukseshshme!").setData(lista).build();
+        }
+        return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("There are no appointments today!").build();
+    }
 }
