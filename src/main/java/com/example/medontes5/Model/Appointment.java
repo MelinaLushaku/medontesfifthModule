@@ -17,6 +17,9 @@ public class Appointment {
     @Column
     private boolean freeAppoint;
 
+    @Column
+    private double time;
+
     @Embedded
     private PatientEntity patientEntity;
 
@@ -29,10 +32,19 @@ public class Appointment {
         this.freeAppoint = appointmentBuilder.freeAppoint;
         this.doctorEntity = appointmentBuilder.doctorEntity;
         this.patientEntity = appointmentBuilder.patientEntity;
+        this.time = appointmentBuilder.time;
     }
 
     public DoctorEntity getDoctorEntity() {
         return doctorEntity;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
     }
 
     public void setDoctorEntity(DoctorEntity doctorEntity) {
@@ -77,12 +89,14 @@ public class Appointment {
           private boolean freeAppoint;
           private PatientEntity patientEntity;
           private DoctorEntity doctorEntity;
+          private double time;
 
 
-          public AppointmentBuilder(Date dateAndTime , boolean freeAppoint , DoctorEntity doctorEntity){
+          public AppointmentBuilder(Date dateAndTime , boolean freeAppoint , DoctorEntity doctorEntity , double time){
               this.dateAndTime = dateAndTime;
               this.freeAppoint = freeAppoint;
               this.doctorEntity = doctorEntity;
+              this.time = time;
           }
 
          public AppointmentBuilder setDateAndTime(Date dateAndTime){

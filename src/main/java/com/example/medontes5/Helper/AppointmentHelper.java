@@ -7,13 +7,23 @@ public class AppointmentHelper implements Serializable {
     private Date data;
     private boolean isFree;
     private int docPrNumber;
+    private double time;
 
     public AppointmentHelper(){}
-     public AppointmentHelper(Date data , boolean isFree , int docPrNumber){
+     public AppointmentHelper(Date data , boolean isFree , int docPrNumber , double time){
         this.data= data;
         this.isFree= isFree;
         this.docPrNumber = docPrNumber;
+        this.time = this.time;
      }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
 
     public Date getData() {
         return data;

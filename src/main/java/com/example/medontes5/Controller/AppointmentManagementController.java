@@ -27,7 +27,7 @@ public class AppointmentManagementController {
     public AppointmentResponse addAppointment(@RequestBody AppointmentHelper appointmentHelper){
         DoctorEntity ap = this.iAppointmentService.getDoctorByPrNumber(appointmentHelper.getDocPrNumber());
         boolean free = true;
-        Appointment a = new Appointment.AppointmentBuilder(appointmentHelper.getData(),free , ap).build();
+        Appointment a = new Appointment.AppointmentBuilder(appointmentHelper.getData(),free , ap , appointmentHelper.getTime()).build();
         this.iAppointmentService.addNewFreeAppointments(a);
         return  new AppointmentResponse.AppointmentResponseBuilder<>(401).setMesazhin("Appointment added!").setData(a).build();
 
