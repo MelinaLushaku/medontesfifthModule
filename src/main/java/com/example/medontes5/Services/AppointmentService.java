@@ -39,10 +39,11 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public void editAppointment(int doc , Date data, PatientEntity p){
+    public void editAppointment(int doc , Date data, PatientEntity p , double time){
          Appointment a = this.appointmentRepository.findAppointmentByTime(doc , data);
          a.setFreeAppoint(false);
          a.setPatientEntity(p);
+         a.setTime(time);
          this.appointmentRepository.save(a);
 
 
@@ -132,5 +133,9 @@ public class AppointmentService implements IAppointmentService{
         }
         return today;
     }
-
+    @Override
+    public List<Appointment> byTime(int idD , Date data , double time){
+         List<Appointment> lista = this.appointmentRepository.findAppointmentByT(idD , data , time);
+         return lista;
+    }
 }

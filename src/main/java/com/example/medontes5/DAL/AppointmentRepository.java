@@ -20,4 +20,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
     @Query("select c from Appointment c where c.doctorEntity.doctorPersonalNumber=?1 and c.dateAndTime=?2 and c.patientEntity.personalNumber=?3")
     Appointment cancelAppointmentByTime(int doc , Date data, int pat);
 
+    @Query("select c from Appointment c where c.doctorEntity.doctorPersonalNumber=?1 and c.dateAndTime=?2  and c.time=?3")
+    List<Appointment> findAppointmentByT(int doc , Date data , double ora);
+
 }

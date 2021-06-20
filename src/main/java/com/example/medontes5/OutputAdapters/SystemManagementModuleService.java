@@ -13,7 +13,7 @@ public class SystemManagementModuleService {
 
     public PatientEntity pacientiE(int nrPersonal){
         RestTemplate restTemplate = new RestTemplate();
-        String userServiceUrl="http://localhost:8080/api/systemManagement/admin/PatientByPersonal/"+nrPersonal;
+        String userServiceUrl="http://localhost:8090/api/systemManagement/admin/PatientByPersonal/"+nrPersonal;
         ResponseEntity<PatientHelper> responseEntity = restTemplate.getForEntity(userServiceUrl , PatientHelper.class );
         String emri = responseEntity.getBody().getName();
         String mbiemri = responseEntity.getBody().getSurname();
@@ -24,7 +24,7 @@ public class SystemManagementModuleService {
 
     public DoctorEntity doctoriE(int doctorPersonalNumber){
         RestTemplate restTemplate = new RestTemplate();
-        String userServiceUrl="http://localhost:8080/api/systemManagement/admin/DoctortByPersonal/"+doctorPersonalNumber;
+        String userServiceUrl="http://localhost:8090/api/systemManagement/admin/DoctortByPersonal/"+doctorPersonalNumber;
         ResponseEntity<DoctorHelper> responseEntity = restTemplate.getForEntity(userServiceUrl , DoctorHelper.class );
         String emri = responseEntity.getBody().getDoctorName();
         String mbiemri = responseEntity.getBody().getDoctorSurname();
