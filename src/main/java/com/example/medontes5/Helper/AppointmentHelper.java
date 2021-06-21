@@ -6,24 +6,24 @@ import java.util.Date;
 public class AppointmentHelper implements Serializable {
     private Date data;
     private boolean isFree;
-    private int docPrNumber;
-    private double time;
+  //  private int doctorPersonalNumber;
+  //  private double oraTerminit;
 
     public AppointmentHelper(){}
-     public AppointmentHelper(Date data , boolean isFree , int docPrNumber , double time){
+     public AppointmentHelper(Date data , boolean isFree ){
         this.data= data;
         this.isFree= isFree;
-        this.docPrNumber = docPrNumber;
-        this.time = this.time;
+    //    this.doctorPersonalNumber = doctorPersonalNumber;
+
      }
 
-    public double getTime() {
-        return time;
+    /*public double getTime() {
+        return oraTerminit;
     }
 
-    public void setTime(double time) {
-        this.time = time;
-    }
+    public void setTime(double oraTerminit) {
+        this.oraTerminit = oraTerminit;
+    }*/
 
     public Date getData() {
         return data;
@@ -41,12 +41,12 @@ public class AppointmentHelper implements Serializable {
         isFree = free;
     }
 
-    public int getDocPrNumber() {
-        return docPrNumber;
+  /*  public int getDocPrNumber() {
+        return doctorPersonalNumber;
     }
 
-    public void setDocPrNumber(int docPrNumber) {
-        this.docPrNumber = docPrNumber;
+    public void setDocPrNumber(int doctorPersonalNumber) {
+        this.doctorPersonalNumber = doctorPersonalNumber;
     }
-
+*/
 }

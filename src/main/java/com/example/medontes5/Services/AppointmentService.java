@@ -30,8 +30,8 @@ public class AppointmentService implements IAppointmentService{
 
 
      @Override
-    public DoctorEntity getDoctorByPrNumber(int nrPersonal){
-     return this.systemManagementModuleService.doctoriE(nrPersonal);
+    public DoctorEntity getDoctorByPrNumber(int doctorPersonalNumber){
+     return this.systemManagementModuleService.doctoriE(doctorPersonalNumber);
      }
     @Override
     public PatientEntity getPatientByPrNumber(int nrPersonal){
@@ -39,7 +39,7 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public void editAppointment(int doc , Date data, PatientEntity p , double time){
+    public void editAppointment(int doc , Date data, PatientEntity p , float time){
          Appointment a = this.appointmentRepository.findAppointmentByTime(doc , data);
          a.setFreeAppoint(false);
          a.setPatientEntity(p);
@@ -134,7 +134,7 @@ public class AppointmentService implements IAppointmentService{
         return today;
     }
     @Override
-    public List<Appointment> byTime(int idD , Date data , double time){
+    public List<Appointment> byTime(int idD , Date data , float time){
          List<Appointment> lista = this.appointmentRepository.findAppointmentByT(idD , data , time);
          return lista;
     }

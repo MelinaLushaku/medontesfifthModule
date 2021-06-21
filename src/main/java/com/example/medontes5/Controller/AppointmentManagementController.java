@@ -23,23 +23,23 @@ public class AppointmentManagementController {
     @Autowired
     private IAppointmentService iAppointmentService;
 
-    @PostMapping("/addNewAppointmentDoc")
-    public AppointmentResponse addAppointment(@RequestBody AppointmentHelper appointmentHelper){
-        List<Appointment> listaaa = this.iAppointmentService.byTime(appointmentHelper.getDocPrNumber() , appointmentHelper.getData() , appointmentHelper.getTime());
+    @PostMapping("/addNewAppointmentDoc/{oraTerminit}/{doctorPersonalNumber}")
+    public AppointmentResponse addAppointment(@RequestBody AppointmentHelper appointmentHelper , @PathVariable float oraTerminit , @PathVariable int doctorPersonalNumber){
+        List<Appointment> listaaa = this.iAppointmentService.byTime(doctorPersonalNumber , appointmentHelper.getData() , oraTerminit );
         if(listaaa.size() == 0) {
-            DoctorEntity ap = this.iAppointmentService.getDoctorByPrNumber(appointmentHelper.getDocPrNumber());
+            DoctorEntity ap = this.iAppointmentService.getDoctorByPrNumber(doctorPersonalNumber);
             boolean free = true;
-            Appointment a = new Appointment.AppointmentBuilder(appointmentHelper.getData(), free, ap, appointmentHelper.getTime()).build();
+            Appointment a = new Appointment.AppointmentBuilder(appointmentHelper.getData(), free, ap, oraTerminit ).build();
             this.iAppointmentService.addNewFreeAppointments(a);
-            return new AppointmentResponse.AppointmentResponseBuilder<>(401).setMesazhin("Appointment added!").setData(a).build();
+            return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("Appointment added!").setData(a).build();
         }
 
-        return new AppointmentResponse.AppointmentResponseBuilder<>(201).setErrorin("You already added this appointment!").build();
+        return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You already added this appointment!").build();
 
     }
 
    @PostMapping("/addNewAppointmentPat/{patPrNumber}/{docNumber}/{dateAndTime}/{time}")
-    public AppointmentResponse addAppointmentPat(@PathVariable int patPrNumber , @PathVariable int docNumber , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateAndTime , @PathVariable double time){
+    public AppointmentResponse addAppointmentPat(@PathVariable int patPrNumber , @PathVariable int docNumber , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateAndTime , @PathVariable float time){
        PatientEntity pa = this.iAppointmentService.getPatientByPrNumber(patPrNumber);
        if(pa !=null) {
            this.iAppointmentService.editAppointment(docNumber, dateAndTime, pa, time);

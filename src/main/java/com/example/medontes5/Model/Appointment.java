@@ -17,8 +17,8 @@ public class Appointment {
     @Column
     private boolean freeAppoint;
 
-    @Column
-    private double time;
+    @Column(nullable=true)
+    private float time;
 
     @Embedded
     private PatientEntity patientEntity;
@@ -39,11 +39,11 @@ public class Appointment {
         return doctorEntity;
     }
 
-    public double getTime() {
+    public float getTime() {
         return time;
     }
 
-    public void setTime(double time) {
+    public void setTime(float time) {
         this.time = time;
     }
 
@@ -89,10 +89,10 @@ public class Appointment {
           private boolean freeAppoint;
           private PatientEntity patientEntity;
           private DoctorEntity doctorEntity;
-          private double time;
+          private float time;
 
 
-          public AppointmentBuilder(Date dateAndTime , boolean freeAppoint , DoctorEntity doctorEntity , double time){
+          public AppointmentBuilder(Date dateAndTime , boolean freeAppoint , DoctorEntity doctorEntity , float time){
               this.dateAndTime = dateAndTime;
               this.freeAppoint = freeAppoint;
               this.doctorEntity = doctorEntity;
