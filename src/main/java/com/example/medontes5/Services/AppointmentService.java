@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class AppointmentService implements IAppointmentService{
@@ -50,6 +51,7 @@ public class AppointmentService implements IAppointmentService{
     }
     @Override
     public List<Appointment> getAppByDoc(int doc){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
          List <Appointment> krejLista = this.appointmentRepository.findAppointmentByDoc(doc);
          List<Appointment> returnLista = new ArrayList<>();
          for(int i = 0 ; i<krejLista.size() ; i++){
@@ -58,6 +60,7 @@ public class AppointmentService implements IAppointmentService{
              Date in = new Date();
              LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
              Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+
              if(krejLista.get(i).getDateAndTime().compareTo(out) > 0){
                  returnLista.add(krejLista.get(i));
              }
