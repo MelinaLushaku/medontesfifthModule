@@ -6,13 +6,13 @@ import java.util.Date;
 public class CancelAppointment implements Serializable {
 
     private int docId;
-    private int patId;
+    private float timeC;
     private Date data;
 
     public CancelAppointment(){}
-    public CancelAppointment(int docId, int patId, Date data) {
+    public CancelAppointment(int docId, Date data , float timeC) {
         this.docId = docId;
-        this.patId = patId;
+        this.timeC = timeC;
         this.data = data;
     }
 
@@ -24,12 +24,12 @@ public class CancelAppointment implements Serializable {
         this.docId = docId;
     }
 
-    public int getPatId() {
-        return patId;
+    public float getTimeC() {
+        return timeC;
     }
 
-    public void setPatId(int patId) {
-        this.patId = patId;
+    public void setTimeC(float timeC) {
+        this.timeC = timeC;
     }
 
     public Date getData() {

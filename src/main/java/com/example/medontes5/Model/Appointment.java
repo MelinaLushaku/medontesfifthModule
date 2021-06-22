@@ -19,12 +19,18 @@ public class Appointment {
 
     @Column(nullable=true)
     private float time;
+    @Column
+    private boolean canceledByPat;
+    @Column
+    private boolean canceledByDoc;
 
     @Embedded
     private PatientEntity patientEntity;
 
     @Embedded
     private DoctorEntity doctorEntity;
+
+
 
    public  Appointment(){}
     public Appointment(AppointmentBuilder appointmentBuilder) {
@@ -33,6 +39,24 @@ public class Appointment {
         this.doctorEntity = appointmentBuilder.doctorEntity;
         this.patientEntity = appointmentBuilder.patientEntity;
         this.time = appointmentBuilder.time;
+        this.canceledByDoc = appointmentBuilder.canceledByDoc;
+        this.canceledByPat = appointmentBuilder.canceledByPat;
+    }
+
+    public boolean isCanceledByPat() {
+        return canceledByPat;
+    }
+
+    public void setCanceledByPat(boolean canceledByPat) {
+        this.canceledByPat = canceledByPat;
+    }
+
+    public boolean isCanceledByDoc() {
+        return canceledByDoc;
+    }
+
+    public void setCanceledByDoc(boolean canceledByDoc) {
+        this.canceledByDoc = canceledByDoc;
     }
 
     public DoctorEntity getDoctorEntity() {
@@ -90,6 +114,8 @@ public class Appointment {
           private PatientEntity patientEntity;
           private DoctorEntity doctorEntity;
           private float time;
+          private boolean canceledByPat;
+          private boolean canceledByDoc;
 
 
           public AppointmentBuilder(Date dateAndTime , boolean freeAppoint , DoctorEntity doctorEntity , float time){
@@ -97,6 +123,8 @@ public class Appointment {
               this.freeAppoint = freeAppoint;
               this.doctorEntity = doctorEntity;
               this.time = time;
+              this.canceledByDoc =false;
+              this.canceledByPat = false;
           }
 
          public AppointmentBuilder setDateAndTime(Date dateAndTime){

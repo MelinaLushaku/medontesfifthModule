@@ -86,17 +86,22 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public void cancelAppointment(int doc , Date data , int pat){
-         Appointment a = this.appointmentRepository.cancelAppointmentByTime(doc,data,pat);
-         a.setFreeAppoint(true);
-         a.setPatientEntity(null);
-         this.appointmentRepository.save(a);
+    public void cancelAppointment(int doc , Date data  , float time){
+         List<Appointment> a = this.appointmentRepository.cancelAppointmentByTime(doc,data,time);
+         if(a.size() != 0) {
+             //a.get(0).setFreeAppoint(false);
+             Appointment b = a.get(0);
+             b.setCanceledByDoc(true);
+             this.appointmentRepository.save(b);
+         }
     }
 
     @Override
-    public void  deleteAppointment(int doc , Date date){
+    public void  deleteAppointment(int doc , Date date , int pat ,float time){
          Appointment a = this.appointmentRepository.findAppointmentByTime(doc , date);
-         this.appointmentRepository.delete(a);
+         a.setCanceledByPat(true);
+         this.appointmentRepository.save(a);
+
     }
 
     @Override
@@ -138,7 +143,7 @@ public class AppointmentService implements IAppointmentService{
     }
     @Override
     public List<Appointment> byTime(int idD , Date data , float time){
-         List<Appointment> lista = this.appointmentRepository.findAppointmentByT(idD , data , time);
+         List<Appointment> lista = this.appointmentRepository.cancelAppointmentByTime(idD , data , time);
          return lista;
     }
 }

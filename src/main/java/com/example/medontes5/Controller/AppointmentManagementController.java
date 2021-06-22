@@ -8,6 +8,7 @@ import com.example.medontes5.Model.DoctorEntity;
 import com.example.medontes5.Model.PatientEntity;
 import com.example.medontes5.Services.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
@@ -69,13 +70,27 @@ public class AppointmentManagementController {
 
     @PostMapping("/cancelAppointment")
     public AppointmentResponse cancelAppointment(@RequestBody CancelAppointment cancelAppointment){
-        this.iAppointmentService.cancelAppointment(cancelAppointment.getDocId(), cancelAppointment.getData() , cancelAppointment.getPatId());
-        return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("AppointmentCanceled!").setData("Appointment at "+cancelAppointment.getData()+" was canceled!").build();
+        List<Appointment> lista = this.iAppointmentService.byTime(cancelAppointment.getDocId(), cancelAppointment.getData(), cancelAppointment.getTimeC());
+        if(lista.size() != 0) {
+            if(lista.get(0).isCanceledByDoc() == false && lista.get(0).isCanceledByPat() == false) {
+                this.iAppointmentService.cancelAppointment(cancelAppointment.getDocId(), cancelAppointment.getData(), cancelAppointment.getTimeC());
+                return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("AppointmentCanceled!").setData("Appointment at " + cancelAppointment.getData() + " was canceled!").build();
+            }else {
+                return  new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("This Appointment is already canceled!").build();
+            }
+        }else{
+            return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You don't have this kind of appointment on the list").build();
+        }
+    }
+    @GetMapping("/gettAP")
+    public AppointmentResponse getApp(@RequestBody CancelAppointment cancelAppointment){
+        List<Appointment> listt = this.iAppointmentService.byTime(cancelAppointment.getDocId() , cancelAppointment.getData() , cancelAppointment.getTimeC());
+        return  new AppointmentResponse.AppointmentResponseBuilder<>(201).setData(listt).build();
     }
 
-    @PostMapping("/deleteAppointment/{docId}/{date}")
-    public AppointmentResponse deleteAppointment(@PathVariable int docId , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date){
-       this.iAppointmentService.deleteAppointment(docId , date);
+    @PostMapping("/deleteAppointment/{docId}/{date}/{patId}/{time}")
+    public AppointmentResponse deleteAppointment(@PathVariable int docId , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date, @PathVariable int patId , @PathVariable float time){
+       this.iAppointmentService.deleteAppointment(docId , date ,patId, time);
         DoctorEntity de = this.iAppointmentService.getDoctorByPrNumber(docId);
        return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("Appointment Canceled!").setData("Appointment by:"+de.getDoctorName()+""+de.getDoctorSurname()+" at "+date+ "was canceled!").build();
     }
