@@ -19,6 +19,6 @@ public interface IAppointmentService {
     void deleteAppointment(int doc , Date date , int pat , float time);
     List<Appointment> todayAppDoc(int doc);
     List<Appointment> todayAppPat(int pat);
-    List<Appointment> byTime(int idD , Date data , float time);
+    List<Appointment> byTime(int idD , float time);
 
 }

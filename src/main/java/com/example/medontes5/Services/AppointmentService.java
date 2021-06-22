@@ -24,8 +24,10 @@ public class AppointmentService implements IAppointmentService{
      @Autowired
      private SystemManagementModuleService systemManagementModuleService;
 
+
      @Override
     public void addNewFreeAppointments(Appointment a){
+         TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
          this.appointmentRepository.save(a);
      }
 
@@ -41,6 +43,7 @@ public class AppointmentService implements IAppointmentService{
 
     @Override
     public void editAppointment(int doc , Date data, PatientEntity p , float time){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
          Appointment a = this.appointmentRepository.findAppointmentByTime(doc , data);
          a.setFreeAppoint(false);
          a.setPatientEntity(p);
@@ -70,6 +73,7 @@ public class AppointmentService implements IAppointmentService{
 
     @Override
     public List<Appointment> getAppByPat(int pat){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
         List <Appointment> krejLista = this.appointmentRepository.findAppointmentByPat(pat);
         List<Appointment> returnLista = new ArrayList<>();
         for(int i = 0 ; i<krejLista.size() ; i++){
@@ -87,6 +91,7 @@ public class AppointmentService implements IAppointmentService{
 
     @Override
     public void cancelAppointment(int doc , Date data  , float time){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
          List<Appointment> a = this.appointmentRepository.cancelAppointmentByTime(doc,data,time);
          if(a.size() != 0) {
              //a.get(0).setFreeAppoint(false);
@@ -98,6 +103,7 @@ public class AppointmentService implements IAppointmentService{
 
     @Override
     public void  deleteAppointment(int doc , Date date , int pat ,float time){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
          Appointment a = this.appointmentRepository.findAppointmentByTime(doc , date);
          a.setCanceledByPat(true);
          this.appointmentRepository.save(a);
@@ -106,6 +112,7 @@ public class AppointmentService implements IAppointmentService{
 
     @Override
     public List<Appointment> todayAppDoc(int doc){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
          List<Appointment> lista = this.appointmentRepository.findAppointmentByDoc(doc);
          List<Appointment> today = new ArrayList<>();
          for(int i = 0 ; i<lista.size() ; i++) {
@@ -126,6 +133,7 @@ public class AppointmentService implements IAppointmentService{
 
     @Override
     public List<Appointment> todayAppPat(int pat){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
         List<Appointment> lista = this.appointmentRepository.findAppointmentByPat(pat);
         List<Appointment> today = new ArrayList<>();
         for(int i = 0 ; i<lista.size() ; i++) {
@@ -142,8 +150,9 @@ public class AppointmentService implements IAppointmentService{
         return today;
     }
     @Override
-    public List<Appointment> byTime(int idD , Date data , float time){
-         List<Appointment> lista = this.appointmentRepository.cancelAppointmentByTime(idD , data , time);
+    public List<Appointment> byTime(int idD , float time){
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
+         List<Appointment> lista = this.appointmentRepository.cancelAppointmentByTim2e(idD , time);
          return lista;
     }
 }
