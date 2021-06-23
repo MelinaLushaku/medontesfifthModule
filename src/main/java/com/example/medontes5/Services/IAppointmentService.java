@@ -16,9 +16,10 @@ public interface IAppointmentService {
     List<Appointment> getAppByDoc(int doc);
     List<Appointment> getAppByPat(int pat);
     void cancelAppointment(int doc , Date data, float time);
-    void deleteAppointment(int doc , Date date , int pat , float time);
+    void deleteAppointment(int doc , Date date, float time , int pat );
     List<Appointment> todayAppDoc(int doc);
     List<Appointment> todayAppPat(int pat);
     List<Appointment> byTime(int idD , float time);
+    List<Appointment> listaTP(int doc , Date date ,float time, int pat);
 
 }

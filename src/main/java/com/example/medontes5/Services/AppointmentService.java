@@ -102,12 +102,17 @@ public class AppointmentService implements IAppointmentService{
     }
 
     @Override
-    public void  deleteAppointment(int doc , Date date , int pat ,float time){
+    public void  deleteAppointment(int doc , Date date ,float time, int pat){
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-         Appointment a = this.appointmentRepository.findAppointmentByTime(doc , date);
-         a.setCanceledByPat(true);
-         this.appointmentRepository.save(a);
+         List<Appointment> a = this.appointmentRepository.findAppointmentByT(doc , date , time , pat);
+         a.get(0).setCanceledByPat(true);
+         this.appointmentRepository.save(a.get(0));
 
+    }
+
+    public List<Appointment> listaTP(int doc , Date date ,float time, int pat){
+        List<Appointment> a = this.appointmentRepository.findAppointmentByT(doc , date , time , pat);
+        return a;
     }
 
     @Override

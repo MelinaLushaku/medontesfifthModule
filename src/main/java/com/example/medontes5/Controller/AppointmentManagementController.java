@@ -28,7 +28,7 @@ public class AppointmentManagementController {
 
     @Autowired
     private IAppointmentService iAppointmentService;
-
+//done
    @PostMapping("/addNewAppointmentDoc/{oraTerminit}/{doctorPersonalNumber}")
     public AppointmentResponse addAppointment(@RequestBody AppointmentHelper appointmentHelper , @PathVariable float oraTerminit , @PathVariable int doctorPersonalNumber){
         List<Appointment> listaaa = this.getApp(doctorPersonalNumber , appointmentHelper.getData() , oraTerminit );
@@ -65,6 +65,7 @@ public class AppointmentManagementController {
        return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("Nuk ekziston ky person").build();
 
     }
+    //done
     @GetMapping("/getAppByDoc/{personalNumber}")
     public AppointmentResponse getAppByDoc(@PathVariable int personalNumber){
         List<Appointment> lista = this.iAppointmentService.getAppByDoc(personalNumber);
@@ -85,7 +86,7 @@ public class AppointmentManagementController {
             return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You don't have appointments!").build();
         }
     }
-
+//done
     @PostMapping("/cancelAppointment/{oraTerminit}/{doctorPersonalNumber}")
     public AppointmentResponse cancelAppointment(@RequestBody CancelAppointment cancelAppointment , @PathVariable float oraTerminit , @PathVariable int doctorPersonalNumber){
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Copenhagen"));
@@ -131,13 +132,16 @@ public class AppointmentManagementController {
     }
 
     @PostMapping("/deleteAppointment/{docId}/{date}/{patId}/{time}")
-    public AppointmentResponse deleteAppointment(@PathVariable int docId , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date, @PathVariable int patId , @PathVariable float time){
-       this.iAppointmentService.deleteAppointment(docId , date ,patId, time);
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Copenhagen"));
-        DoctorEntity de = this.iAppointmentService.getDoctorByPrNumber(docId);
-       return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("Appointment Canceled!").setData("Appointment by:"+de.getDoctorName()+""+de.getDoctorSurname()+" at "+date+ "was canceled!").build();
+    public AppointmentResponse deleteAppointment(@PathVariable int docId , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date, @PathVariable int patId , @PathVariable float time) {
+        List<Appointment> lista = this.iAppointmentService.listaTP(docId, date, time, patId);
+        if (lista.size() != 0) {
+            this.iAppointmentService.deleteAppointment(docId, date, time, patId);
+            TimeZone.setDefault(TimeZone.getTimeZone("Europe/Copenhagen"));
+            DoctorEntity de = this.iAppointmentService.getDoctorByPrNumber(docId);
+            return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("Appointment Canceled!").setData("Appointment by:" + de.getDoctorName() + "" + de.getDoctorSurname() + " at " + date + "was canceled!").build();
+        }return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You don't have this kind of appointment to cancel").build();
     }
-
+//done
     @GetMapping("/getTodaysAppDoc/{docId}")
     public AppointmentResponse getTodaysAppDoc(@PathVariable int docId){
         List<Appointment> lista = this.iAppointmentService.todayAppDoc(docId);
