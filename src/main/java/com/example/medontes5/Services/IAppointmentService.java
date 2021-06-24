@@ -21,5 +21,6 @@ public interface IAppointmentService {
     List<Appointment> todayAppPat(int pat);
     List<Appointment> byTime(int idD , float time);
     List<Appointment> listaTP(int doc , Date date ,float time, int pat);
+    List<Appointment>listTM(int doc , Date data , float time);
 
 }

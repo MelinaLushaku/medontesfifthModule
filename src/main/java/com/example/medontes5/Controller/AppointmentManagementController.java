@@ -41,7 +41,9 @@ public class AppointmentManagementController {
             if (appointmentHelper.getData().compareTo(out) > 0  || appointmentHelper.getData().compareTo(out) == 0) {
                 DoctorEntity ap = this.iAppointmentService.getDoctorByPrNumber(doctorPersonalNumber);
                 boolean free = true;
-                Appointment a = new Appointment.AppointmentBuilder(appointmentHelper.getData(), free, ap, oraTerminit).build();
+                Date dataDuhur = appointmentHelper.getData();
+                dataDuhur.setHours(20);
+                Appointment a = new Appointment.AppointmentBuilder(dataDuhur, free, ap, oraTerminit).build();
                 this.iAppointmentService.addNewFreeAppointments(a);
                 return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("Appointment added!").setData(a).build();
             }
@@ -57,12 +59,14 @@ public class AppointmentManagementController {
    @PostMapping("/addNewAppointmentPat/{patPrNumber}/{docNumber}/{dateAndTime}/{time}")
     public AppointmentResponse addAppointmentPat(@PathVariable int patPrNumber , @PathVariable int docNumber , @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateAndTime , @PathVariable float time){
        PatientEntity pa = this.iAppointmentService.getPatientByPrNumber(patPrNumber);
-
-       if(pa !=null) {
-           this.iAppointmentService.editAppointment(docNumber, dateAndTime, pa, time);
+       Date data = dateAndTime;
+       data.setHours(20);
+       List<Appointment>lista = this.iAppointmentService.listTM(docNumber, data , time);
+       if(lista.size() != 0) {
+           this.iAppointmentService.editAppointment(docNumber, data, pa, time);
            return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("Appointment added!").build();
        }
-       return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("Nuk ekziston ky person").build();
+       return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("There is no this kind of free appointment").build();
 
     }
     //done
@@ -108,14 +112,14 @@ public class AppointmentManagementController {
         List<Appointment> listt = this.iAppointmentService.byTime(docId , ora);
         List<Appointment> lista2 = new ArrayList<>();
         Date data1 = data;
-        data1.setHours(0);
+        data1.setHours(20);
         data1.setSeconds(0);
         data1.setMinutes(0);
         if(listt.size() !=0) {
             for (int i = 0; i < listt.size(); i++) {
                 Appointment a =listt.get(i);
                 Date dataa = a.getDateAndTime();
-              dataa.setHours(0);
+              dataa.setHours(20);
               dataa.setSeconds(0);
               dataa.setMinutes(0);
 
