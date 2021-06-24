@@ -44,12 +44,12 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public void editAppointment(int doc, Date data, PatientEntity p, float time) {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
-        Appointment a = this.appointmentRepository.findAppointmentByTime(doc, data);
-        a.setFreeAppoint(false);
-        a.setPatientEntity(p);
-        a.setTime(time);
-        this.appointmentRepository.save(a);
+        //TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
+        List<Appointment> a = this.appointmentRepository.cancelAppointmentByTime(doc, data , time);
+        a.get(0).setFreeAppoint(false);
+        a.get(0).setPatientEntity(p);
+       // a.setTime(time);
+        this.appointmentRepository.save(a.get(0));
 
 
     }
@@ -105,7 +105,7 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public void deleteAppointment(int doc, Date date, float time, int pat) {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
+        //TimeZone.setDefault(TimeZone.getTimeZone("Europe/London"));
         List<Appointment> a = this.appointmentRepository.findAppointmentByT(doc, date, time, pat);
         a.get(0).setCanceledByPat(true);
         this.appointmentRepository.save(a.get(0));
@@ -168,5 +168,40 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> listTM(int doc, Date data, float time) {
         List<Appointment> listaa = this.appointmentRepository.cancelAppointmentByTime(doc, data, time);
         return listaa;
+    }
+
+    @Override
+    public int getAllApp(){
+        List<Appointment> lista = this.appointmentRepository.findAll();
+        return lista.size();
+
+    }
+    @Override
+    public int nextDays(){
+        List<Appointment> list = this.appointmentRepository.findAll();
+        int nrA = 0;
+        for(int i = 0; i < list.size() ; i++){
+            Appointment a = list.get(i);
+            if(a.isFreeAppoint() == false && a.isCanceledByDoc() == false && a.isCanceledByPat() == false){
+                Date data = a.getDateAndTime();
+                data.setHours(20);
+                Date in = new Date();
+                LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+                Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+                //DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                //String outWithZeroTime = formatter.format(out);
+                out.setHours(20);
+                out.setMinutes(0);
+                out.setSeconds(0);
+                System.out.println(data);
+                System.out.println(out);
+                if(out.compareTo(data) > 0){
+
+                    nrA++;
+                }
+
+            }
+        }
+        return nrA;
     }
 }
