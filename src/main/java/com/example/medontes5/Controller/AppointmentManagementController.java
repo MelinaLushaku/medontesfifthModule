@@ -55,7 +55,7 @@ public class AppointmentManagementController {
         return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You already added this appointment!").build();
 
     }
-
+ //done
     @PostMapping("/addNewAppointmentPat/{patPrNumber}/{docNumber}/{dateAndTime}/{time}")
     public AppointmentResponse addAppointmentPat(@PathVariable int patPrNumber, @PathVariable int docNumber, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateAndTime, @PathVariable float time) {
         PatientEntity pa = this.iAppointmentService.getPatientByPrNumber(patPrNumber);
@@ -84,8 +84,7 @@ public class AppointmentManagementController {
             return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("This doctor doesn't have appointments!").build();
         }
     }
-
-    //LIDHE ME FRONT
+    //done
     @GetMapping("/getAppByPat/{personalNumber}")
     public AppointmentResponse getAppByPat(@PathVariable int personalNumber) {
         List<Appointment> lista = this.iAppointmentService.getAppByPat(personalNumber);
@@ -146,7 +145,7 @@ public class AppointmentManagementController {
         return lista2;
     }
 
-    //LIDHE ME FRONT
+//done
     @PostMapping("/deleteAppointment/{docId}/{date}/{patId}/{time}")
     public AppointmentResponse deleteAppointment(@PathVariable int docId, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date, @PathVariable int patId, @PathVariable float time) {
         date.setHours(20);
@@ -171,7 +170,6 @@ public class AppointmentManagementController {
         return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("There are no appointments today!").build();
 
     }
-
     //done
     @GetMapping("/getTodaysAppPat/{patId}")
     public AppointmentResponse getTodaysAppPat(@PathVariable int patId) {
@@ -184,7 +182,7 @@ public class AppointmentManagementController {
     }
 
 
-
+//done
     @GetMapping("/admin/totalAppointments")
     public AppointmentResponse getTotalApp(){
         int nr = this.iAppointmentService.getAllApp();
@@ -194,7 +192,7 @@ public class AppointmentManagementController {
             return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("No appointments!").build();
         }
     }
-
+//done
     @GetMapping("/admin/getAppointmentsForNextDays")
    public AppointmentResponse getNextApp(){
         int nr = this.iAppointmentService.nextDays();
