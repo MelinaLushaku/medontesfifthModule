@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class SystemManagementModuleService {
+public class SystemManagementModuleService implements ISystemManagementModuleService{
 
     public PatientEntity pacientiE(int nrPersonal){
         RestTemplate restTemplate = new RestTemplate();

@@ -4,6 +4,7 @@ import com.example.medontes5.DAL.AppointmentRepository;
 import com.example.medontes5.Model.Appointment;
 import com.example.medontes5.Model.DoctorEntity;
 import com.example.medontes5.Model.PatientEntity;
+import com.example.medontes5.OutputAdapters.ISystemManagementModuleService;
 import com.example.medontes5.OutputAdapters.SystemManagementModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class AppointmentService implements IAppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
     @Autowired
-    private SystemManagementModuleService systemManagementModuleService;
+    private ISystemManagementModuleService systemManagementModuleService;
 
 
     @Override
