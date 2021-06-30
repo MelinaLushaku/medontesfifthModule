@@ -40,6 +40,8 @@ public interface IAppointmentService {
     int nextDays();
 
 
+
+
 }
 
 
