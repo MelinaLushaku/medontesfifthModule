@@ -207,40 +207,45 @@ public class AppointmentService implements IAppointmentService {
         return nrA;
     }
     @Override
-    public List<Appointment> getAppByUsers(int docId, int patId){
-        List<Appointment> lista = this.appointmentRepository.listOfP(docId, patId);
+    public List<Appointment> getAppByUsers(int docId){
+        List<Appointment> lista = this.appointmentRepository.listOfP(docId);
         return lista;
     }
 
     @Override
-    public List<PatientEntity> lista(int docId, int patId){
-        List<Appointment> lista = this.appointmentRepository.listOfP(docId, patId);
+    public List<PatientEntity> lista(int docId){
+        List<Appointment> lista = this.appointmentRepository.listOfP(docId);
         List<PatientEntity> lista2 = new ArrayList<>();
-        for(int i = 0 ; i < lista.size() ; i++){
+        for(int i = 1 ; i < lista.size() ; i++){
             PatientEntity pe = lista.get(i).getPatientEntity();
-            if(lista2.contains(pe)){
-
-            }else {
-                lista2.add(pe);
-            }
+            if(lista2.size() !=0 && pe != null) {
+                for (int j = 0; j < lista2.size(); j++) {
+                    if (pe.getPersonalNumber() != lista2.get(j).getPersonalNumber()) {
+                        lista2.add(pe);
+                    }
+                }
+            } else {
+                if(pe != null){lista2.add(pe);}}
             }
         return lista2;
         }
 
-        @Override
-       public List<DoctorEntity> listaD(int docId, int patId){
-            List<Appointment> lista = this.appointmentRepository.listOfP(docId, patId);
-
-            List<DoctorEntity> lista2 = new ArrayList<>();
-            for(int i = 0 ; i < lista.size() ; i++){
-                DoctorEntity pe = lista.get(i).getDoctorEntity();
-                if(lista2.contains(pe)){
-
-                }else {
-                    lista2.add(pe);
-                }
-            }
-            return lista2;
-        }
+       @Override
+       public List<DoctorEntity> listaD(int docId){
+           List<Appointment> lista = this.appointmentRepository.listOfP(docId);
+           List<DoctorEntity> lista2 = new ArrayList<>();
+           for(int i = 1 ; i < lista.size() ; i++){
+               DoctorEntity pe = lista.get(i).getDoctorEntity();
+               if(lista2.size() !=0 && pe != null) {
+                   for (int j = 0; j < lista2.size(); j++) {
+                       if (pe.getDoctorPersonalNumber() != lista2.get(j).getDoctorPersonalNumber()) {
+                           lista2.add(pe);
+                       }
+                   }
+               } else {
+                   if(pe != null){lista2.add(pe);}}
+           }
+           return lista2;
+       }
 }
 
