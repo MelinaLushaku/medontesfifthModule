@@ -7,6 +7,7 @@ import com.example.medontes5.Model.Appointment;
 import com.example.medontes5.Model.DoctorEntity;
 import com.example.medontes5.Model.PatientEntity;
 import com.example.medontes5.Services.IAppointmentService;
+import com.sun.org.apache.bcel.internal.generic.ARETURN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -200,5 +201,27 @@ public class AppointmentManagementController {
             return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("List e suksese").setData(nr).build();
         }
         return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("There are no upcoming appointments").build();
+    }
+
+
+    //lidhe front
+    @PostMapping("listOfDocs/{docID}/{patID}")
+    public AppointmentResponse listofDoc(@PathVariable int docID , @PathVariable int patID){
+        List<Appointment> lista = this.iAppointmentService.getAppByUsers(docID , patID);
+        if(lista.size() != 0){
+            List<DoctorEntity> listt = this.iAppointmentService.listaD(docID, patID);
+            return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("List e suksesshme").setData(listt).build();
+        }
+        return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You don't have a list of personal doctor's!").build();
+    }
+    //lidhe front
+    @PostMapping("listOfPats/{docID}/{patID}")
+    public AppointmentResponse listofPat(@PathVariable int docID , @PathVariable int patID){
+        List<Appointment> lista = this.iAppointmentService.getAppByUsers(docID , patID);
+        if(lista.size() != 0){
+            List<PatientEntity> listt = this.iAppointmentService.lista(docID, patID);
+            return new AppointmentResponse.AppointmentResponseBuilder<>(201).setMesazhin("List e suksesshme").setData(listt).build();
+        }
+        return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You don't have a list of personal doctor's!").build();
     }
 }

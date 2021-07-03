@@ -39,6 +39,11 @@ public interface IAppointmentService {
 
     int nextDays();
 
+    List<PatientEntity> lista(int docId, int patId);
+
+    List<DoctorEntity> listaD(int docId, int patId);
+
+    List<Appointment> getAppByUsers(int docId, int patId);
 
 
 

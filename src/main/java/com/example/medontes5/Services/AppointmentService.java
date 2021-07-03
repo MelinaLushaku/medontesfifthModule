@@ -9,6 +9,7 @@ import com.example.medontes5.OutputAdapters.SystemManagementModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -205,4 +206,41 @@ public class AppointmentService implements IAppointmentService {
         }
         return nrA;
     }
+    @Override
+    public List<Appointment> getAppByUsers(int docId, int patId){
+        List<Appointment> lista = this.appointmentRepository.listOfP(docId, patId);
+        return lista;
+    }
+
+    @Override
+    public List<PatientEntity> lista(int docId, int patId){
+        List<Appointment> lista = this.appointmentRepository.listOfP(docId, patId);
+        List<PatientEntity> lista2 = new ArrayList<>();
+        for(int i = 0 ; i < lista.size() ; i++){
+            PatientEntity pe = lista.get(i).getPatientEntity();
+            if(lista2.contains(pe)){
+
+            }else {
+                lista2.add(pe);
+            }
+            }
+        return lista2;
+        }
+
+        @Override
+       public List<DoctorEntity> listaD(int docId, int patId){
+            List<Appointment> lista = this.appointmentRepository.listOfP(docId, patId);
+
+            List<DoctorEntity> lista2 = new ArrayList<>();
+            for(int i = 0 ; i < lista.size() ; i++){
+                DoctorEntity pe = lista.get(i).getDoctorEntity();
+                if(lista2.contains(pe)){
+
+                }else {
+                    lista2.add(pe);
+                }
+            }
+            return lista2;
+        }
 }
+
