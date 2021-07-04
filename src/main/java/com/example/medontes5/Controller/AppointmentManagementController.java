@@ -204,7 +204,7 @@ public class AppointmentManagementController {
     }
 
 
-    //lidhe front
+    //done
   @PostMapping("listOfDocs/{patID}")
     public AppointmentResponse listofDoc( @PathVariable int patID){
         List<Appointment> lista = this.iAppointmentService.getAppByUsers( patID);
