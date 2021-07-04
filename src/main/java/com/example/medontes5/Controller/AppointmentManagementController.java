@@ -214,7 +214,7 @@ public class AppointmentManagementController {
         }
         return new AppointmentResponse.AppointmentResponseBuilder<>(401).setErrorin("You don't have a list of personal doctor's!").build();
     }
-   //almost done
+   // done
     @GetMapping("listOfPats/{docID}")
     public AppointmentResponse listofPat(@PathVariable int docID ){
         List<Appointment> lista = this.iAppointmentService.getAppByUsers(docID );
